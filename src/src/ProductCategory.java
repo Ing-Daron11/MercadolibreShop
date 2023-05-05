@@ -1,0 +1,10 @@
+public enum ProductCategory {
+    BOOKS,
+    ELECTRONICS,
+    CLOTHING_ACCESSORIES,
+    FOOD_BEVERAGES,
+    STATIONERY,
+    SPORTS,
+    BEAUTY_PERSONAL_CARE,
+    TOYS_GAMES
+}
