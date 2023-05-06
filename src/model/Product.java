@@ -6,15 +6,27 @@ public class Product {
     private ProductCategory category;
     private int numberOfPurchases;
 
-    public Product(String name, String description, double price, int quantityAvailable, ProductCategory category, int numberOfPurchases) {
+    public Product(String name, String description, double price, int quantityAvailable, int category, int numberOfPurchases) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.quantityAvailable = quantityAvailable;
-        this.category = category;
+        this.category = ProductCategory.values()[category];
         this.numberOfPurchases = numberOfPurchases;
     }
+    @Override
+    public String toString(){
+        return "\nName: " + this.name + " \n" +
+                "Description: " + this.description + " \n" +
+                "Price: " + this.price + " \n" +
+                "Quantity: " + this.quantityAvailable + " \n" +
+                "Category: " + this.category + " \n" +
+                "Purchases: " + this.numberOfPurchases + " \n" +
+                "========================= \n";
+    }
 
+
+//-----------------------Getters and Setters---------------------
     public String getName() {
         return name;
     }
@@ -62,6 +74,4 @@ public class Product {
     public void setNumberOfPurchases(int numberOfPurchases) {
         this.numberOfPurchases = numberOfPurchases;
     }
-
-    // ...
 }
