@@ -1,3 +1,6 @@
+import Exceptions.CategoryDoesnotExistException;
+import Exceptions.NotAvailableToSellException;
+
 public class Product {
     private String name;
     private String description;
@@ -6,12 +9,17 @@ public class Product {
     private ProductCategory category;
     private int numberOfPurchases;
 
-    public Product(String name, String description, double price, int quantityAvailable, int category, int numberOfPurchases) {
+    public Product(String name, String description, double price, int quantityAvailable, int category, int numberOfPurchases) throws CategoryDoesnotExistException {
         this.name = name;
         this.description = description;
         this.price = price;
         this.quantityAvailable = quantityAvailable;
-        this.category = ProductCategory.values()[category];
+        if(category>ProductCategory.values().length){
+            throw new CategoryDoesnotExistException();
+        }
+        else{
+            this.category = ProductCategory.values()[category];
+        }
         this.numberOfPurchases = numberOfPurchases;
     }
     @Override
@@ -74,4 +82,12 @@ public class Product {
     public void setNumberOfPurchases(int numberOfPurchases) {
         this.numberOfPurchases = numberOfPurchases;
     }
+
+    public void sellProduct( int quantityToSell) throws NotAvailableToSellException {
+        if (quantityToSell>quantityAvailable) {
+            throw new NotAvailableToSellException();
+        }
+            this.quantityAvailable -= quantityToSell;
+            this.numberOfPurchases+= quantityToSell;
+        }
 }

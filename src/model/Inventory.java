@@ -1,3 +1,7 @@
+import Exceptions.CategoryDoesnotExistException;
+import Exceptions.InventoryEmptyException;
+import Exceptions.ProductNotFoundException;
+
 import java.util.ArrayList;
 
 public class Inventory {
@@ -14,20 +18,17 @@ public class Inventory {
     }
 
     public String addProductToInventory(String name, String description, double price, int quantityAvailable, int category, int numberOfPurchases) {
-        Product product = new Product(name, description, price, quantityAvailable, category, numberOfPurchases);
-        listProducts.add(product);
-        return "Product: " + name + " was added to inventory successfully";
-    }
-
-    public String searchProduct(String name) {
-        String msj = "The product was not found";
-        for (Product product : listProducts) {
-            if (product.getName().equalsIgnoreCase(name)) {
-                msj = product.toString();
-            }
+        String msj="";
+        try {
+            Product product = new Product(name, description, price, quantityAvailable, category, numberOfPurchases);
+            listProducts.add(product);
+            msj="Product: " + name + " was added to inventory successfully";
+        }catch (CategoryDoesnotExistException ex){
+            ex.printStackTrace();
         }
         return msj;
     }
+
     public int searchIndexProduct(String name) {
         int index = -1;
         for (int i = 0; i < listProducts.size(); i++) {
@@ -38,74 +39,305 @@ public class Inventory {
         return index;
     }
 
+    public String searchProductByName(String productName) {
+        String msj="";
+        ArrayList<Product> productsOrderByName = orderProductsByName(listProducts);
+        int startingNumber = 0;
+        int endingNumber = productsOrderByName.size() - 1;
+        try {
+            int position = binarySearchByName(productName, startingNumber, endingNumber, productsOrderByName);
+            msj = productsOrderByName.get(position).toString();
+        } catch (ProductNotFoundException | InventoryEmptyException ex) {
+            ex.printStackTrace();
+        }
+        return msj;
+    }
+
+    public String searchProductPrize(double productPrice) {
+        String msj="";
+        ArrayList<Product> productsOrderByPrice = orderProductsByPrice(listProducts);
+        int startingNumber = 0;
+        int endingNumber = productsOrderByPrice.size() - 1;
+        try {
+            String[] line=binarySearchByPrice(productPrice, startingNumber, endingNumber, productsOrderByPrice).split("//");
+            for (int i=1; i<line.length;i++){
+                msj = msj+productsOrderByPrice.get(Integer.parseInt(line[i])).toString()+"\n";
+            }
+        } catch (ProductNotFoundException | InventoryEmptyException ex) {
+            ex.printStackTrace();
+        }
+        return msj;
+    }
+    public String searchProductByCategory(ProductCategory productCategory) {
+        String msj="";
+        ArrayList<Product> productsOrderByCategory = orderProductsByCategory(listProducts);
+        int startingNumber = 0;
+        int endingNumber = productsOrderByCategory.size() - 1;
+        try {
+            String[] line=binarySearchByCategory(productCategory, startingNumber, endingNumber, productsOrderByCategory).split("//");
+            for (int i=1; i<line.length;i++){
+                msj = msj+productsOrderByCategory.get(Integer.parseInt(line[i])).toString()+"\n";
+            }
+        } catch (ProductNotFoundException | InventoryEmptyException ex) {
+            ex.printStackTrace();
+        }
+        return msj;
+    }
+
+    public String searchProductByNumberOfTimesPurchased(int numberOfTimesPurchased) {
+        String msj="";
+        ArrayList<Product> productsOrderByNumberOfTimesPurchase = orderProductsByNumberOfTimesPurchased(listProducts);
+        int startingNumber = 0;
+        int endingNumber = productsOrderByNumberOfTimesPurchase.size() - 1;
+        try {
+            String[] line=binarySearchByNumberOfTimesPurchased(numberOfTimesPurchased, startingNumber, endingNumber, productsOrderByNumberOfTimesPurchase).split("//");
+            for (int i=1; i<line.length;i++){
+                msj = msj+productsOrderByNumberOfTimesPurchase.get(Integer.parseInt(line[i])).toString()+"\n";
+            }
+        } catch (ProductNotFoundException | InventoryEmptyException ex) {
+            ex.printStackTrace();
+        }
+        return msj;
+    }
     public String removeProduct(String name) {
         String msj = "";
-        int index = searchIndexProduct(name);
-        if(index != -1){
-            listProducts.remove(index);
-            msj = "The product: " + name + " was succesfully deleted";
-        }else{
-            msj = "The product: " + name + " wasn't found";
+        ArrayList<Product> productsOrderByName = orderProductsByName(listProducts);
+        try {
+            int index =binarySearchByName(name, 0, productsOrderByName.size() - 1, productsOrderByName);
+                listProducts.remove(index);
+                msj = "The product: " + name + " was succesfully deleted";
+            }catch (Exception ex){
+                ex.printStackTrace();
         }
         return msj;
     }
 
     public String listAllProductsInInventory(){
-        String msj = "\n=== INVENTORY ===";
-        for (int i = 0; i < listProducts.size(); i++) {
-            msj += i + " " + listProducts.get(i).toString()+ " \n";
+        String msj="";
+        if (listProducts.isEmpty()) {
+            try {
+                throw new InventoryEmptyException();
+            }catch (Exception ex){
+                ex.printStackTrace();
+            }
+        } else {
+            msj = "\n=== INVENTORY ===";
+            for (int i = 0; i < listProducts.size(); i++) {
+                msj += i + " " + listProducts.get(i).toString() + " \n";
+            }
+            return msj;
         }
         return msj;
     }
 
-    public String registerOrder(String username, String address, String[] productsToBuy){
-        String msj ="";
-        Order newOrder = new Order(username, address);
-        listOrder.add(newOrder);
-        for (int i = 0; i < productsToBuy.length; i++) {
-            int index = searchIndexProduct(productsToBuy[i]);
-            Product product = listProducts.get(index);
-            newOrder.addProductToOrder(product);
+    public String registerOrder(String username, String address, String[] productsToBuy) {
+        String msj = "";
+        ArrayList<Product> productsOrderByName = orderProductsByName(listProducts);
+        int startingNumber = 0;
+        int endingNumber = productsOrderByName.size() - 1;
+        try {
+            for (int i = 0; i < productsToBuy.length; i++) {
+                int index = binarySearchByName(productsToBuy[i], startingNumber, endingNumber, productsOrderByName);
+                productsOrderByName.get(index).sellProduct(1);
+            }
+            msj = "The order was succefully registered";
+        }catch (Exception ex){
+            ex.printStackTrace();
         }
-        msj = "The order was succefully registered";
-        return  msj;
+        Order newOrder = new Order(username, address,productsToBuy);
+        listOrder.add(newOrder);
+        return msj;
     }
 
-    //Método de ordenamiento para enteros
-    public static void bubbleSortInt(ArrayList<Integer> arrayNum){
-        boolean swapped;
-        do{
-            swapped = false;
-            for (int i = 0; i < arrayNum.size()-1; i++) {
-                if((arrayNum.get(i)) > (arrayNum.get(i+1)) ){
-                    swapped = true;
-                    int current = arrayNum.get(i);
-                    int next = arrayNum.get(i+1);
-                    arrayNum.set(i, next);
-                    arrayNum.set(i+1, current);
-                }
-            }
-        }while (swapped);
+    public String increaseProductQuantity(String productName, int quantityToIncrease){
+        String msj="";
+        ArrayList<Product> productsOrderByName = orderProductsByName(listProducts);
+        int startingNumber = 0;
+        int endingNumber = productsOrderByName.size() - 1;
+        try {
+            int position = binarySearchByName(productName, startingNumber, endingNumber, productsOrderByName);
+            productsOrderByName.get(position).setQuantityAvailable(productsOrderByName.get(position).getQuantityAvailable() + quantityToIncrease);
+            msj = "The product " + productName + " now has " + productsOrderByName.get(position).getQuantityAvailable() + " units available";
+        } catch (ProductNotFoundException | InventoryEmptyException ex) {
+            ex.printStackTrace();
+        }
+        return msj;
     }
 
     //Metodo de ordenamiento de String, Compara en base al sistema UNICODE.
-    public static void bubbleSortString(ArrayList<String> arrayStr){
+
+    public ArrayList<Product> orderProductsByName(ArrayList<Product> arrayStr) {
         boolean swapped;
-        do{
+        do {
             swapped = false;
-            for (int i = 0; i < arrayStr.size()-1; i++) {
-                if((arrayStr.get(i)).compareTo(arrayStr.get(i+1)) > 0){
+            for (int i = 0; i < arrayStr.size() - 1; i++) {
+                if ((arrayStr.get(i).getName()).compareTo(arrayStr.get(i + 1).getName()) > 0) {
                     swapped = true;
-                    String current = arrayStr.get(i);
-                    String next = arrayStr.get(i+1);
+                    Product current = arrayStr.get(i);
+                    Product next = arrayStr.get(i + 1);
                     arrayStr.set(i, next);
-                    arrayStr.set(i+1, current);
+                    arrayStr.set(i + 1, current);
                 }
             }
-        }while (swapped);
+        } while (swapped);
+        return arrayStr;
     }
-
-
-
-
+    public ArrayList<Product> orderProductsByPrice(ArrayList<Product> arrayStr) {
+        boolean swapped;
+        do {
+            swapped = false;
+            for (int i = 0; i < arrayStr.size() - 1; i++) {
+                if ((arrayStr.get(i).getPrice())>(arrayStr.get(i + 1).getPrice())) {
+                    swapped = true;
+                    Product current = arrayStr.get(i);
+                    Product next = arrayStr.get(i + 1);
+                    arrayStr.set(i, next);
+                    arrayStr.set(i + 1, current);
+                }
+            }
+        } while (swapped);
+        return arrayStr;
+    }
+    public ArrayList<Product> orderProductsByCategory(ArrayList<Product> arrayStr) {
+        boolean swapped;
+        do {
+            swapped = false;
+            for (int i = 0; i < arrayStr.size() - 1; i++) {
+                if ((arrayStr.get(i).getCategory().compareTo(arrayStr.get(i + 1).getCategory()))>0) {
+                    swapped = true;
+                    Product current = arrayStr.get(i);
+                    Product next = arrayStr.get(i + 1);
+                    arrayStr.set(i, next);
+                    arrayStr.set(i + 1, current);
+                }
+            }
+        } while (swapped);
+        return arrayStr;
+    }
+    public ArrayList<Product> orderProductsByNumberOfTimesPurchased(ArrayList<Product> arrayStr) {
+        boolean swapped;
+        do {
+            swapped = false;
+            for (int i = 0; i < arrayStr.size() - 1; i++) {
+                if ((arrayStr.get(i).getNumberOfPurchases())>(arrayStr.get(i + 1).getNumberOfPurchases())) {
+                    swapped = true;
+                    Product current = arrayStr.get(i);
+                    Product next = arrayStr.get(i + 1);
+                    arrayStr.set(i, next);
+                    arrayStr.set(i + 1, current);
+                }
+            }
+        } while (swapped);
+        return arrayStr;
+    }
+    public static int binarySearchByName(String goal, int startingNumber, int endingNumber, ArrayList<Product> arrOrder) throws ProductNotFoundException, InventoryEmptyException {
+        int theMiddle = (startingNumber + endingNumber) / 2;
+        if(arrOrder.isEmpty()){
+            throw new InventoryEmptyException();
+        }
+        if (arrOrder.get(theMiddle).getName().equals(goal)) {
+            return theMiddle;
+        }
+        if (startingNumber > endingNumber) {
+            throw new ProductNotFoundException();
+        }
+        if (arrOrder.get(theMiddle).getName().compareTo(goal) < 0) {
+            return binarySearchByName(goal, theMiddle + 1, endingNumber, arrOrder);
+        } else {
+            return binarySearchByName(goal, startingNumber, theMiddle - 1, arrOrder);
+        }
+    }
+    public static String binarySearchByPrice(double goal, int startingNumber, int endingNumber, ArrayList<Product> arrOrder) throws ProductNotFoundException, InventoryEmptyException {
+        String msj="";
+        int theMiddle = (startingNumber + endingNumber) / 2;
+        if(arrOrder.isEmpty()){
+            throw new InventoryEmptyException();
+        }
+        if (arrOrder.get(theMiddle).getPrice()==goal) {
+            while(theMiddle-1!=-1&&arrOrder.get(theMiddle-1).getPrice()==goal){
+               theMiddle--;
+            }
+            while (theMiddle< arrOrder.size()&&arrOrder.get(theMiddle).getPrice()==goal){
+                msj=msj+"//"+theMiddle;
+                theMiddle++;
+            }
+            return msj;
+        }
+        if (startingNumber > endingNumber) {
+            throw new ProductNotFoundException();
+        }
+        if (arrOrder.get(theMiddle).getPrice()<goal) {
+            binarySearchByPrice(goal, theMiddle + 1, endingNumber, arrOrder);
+        } else {
+            binarySearchByPrice(goal, startingNumber, theMiddle - 1, arrOrder);
+        }
+        return "-1";
+    }
+    public static String binarySearchByCategory(ProductCategory goal, int startingNumber, int endingNumber, ArrayList<Product> arrOrder) throws ProductNotFoundException, InventoryEmptyException {
+        String msj="";
+        int theMiddle = (startingNumber + endingNumber) / 2;
+        if(arrOrder.isEmpty()){
+            throw new InventoryEmptyException();
+        }
+        if (arrOrder.get(theMiddle).getCategory().equals(goal)) {
+            while(theMiddle-1!=-1&&arrOrder.get(theMiddle-1).getCategory().equals(goal)){
+                theMiddle--;
+            }
+            while (theMiddle< arrOrder.size()&&arrOrder.get(theMiddle).getCategory().equals(goal)){
+                msj=msj+"//"+theMiddle;
+                theMiddle++;
+            }
+            return msj;
+        }
+        if (startingNumber > endingNumber) {
+            throw new ProductNotFoundException();
+        }
+        if (arrOrder.get(theMiddle).getCategory().compareTo(goal) < 0) {
+            binarySearchByCategory(goal, theMiddle + 1, endingNumber, arrOrder);
+        } else {
+            binarySearchByCategory(goal, startingNumber, theMiddle - 1, arrOrder);
+        }
+        return "-1";
+    }
+    public static String binarySearchByNumberOfTimesPurchased(double goal, int startingNumber, int endingNumber, ArrayList<Product> arrOrder) throws ProductNotFoundException, InventoryEmptyException {
+        String msj="";
+        int theMiddle = (startingNumber + endingNumber) / 2;
+        if(arrOrder.isEmpty()){
+            throw new InventoryEmptyException();
+        }
+        if (arrOrder.get(theMiddle).getNumberOfPurchases()==goal) {
+            while(theMiddle-1!=-1&&arrOrder.get(theMiddle-1).getNumberOfPurchases()==goal){
+                theMiddle--;
+            }
+            while (theMiddle< arrOrder.size()&&arrOrder.get(theMiddle).getNumberOfPurchases()==goal){
+                msj=msj+"//"+theMiddle;
+                theMiddle++;
+            }
+            return msj;
+        }
+        if (startingNumber > endingNumber) {
+            throw new ProductNotFoundException();
+        }
+        if (arrOrder.get(theMiddle).getNumberOfPurchases()<goal) {
+            binarySearchByNumberOfTimesPurchased(goal, theMiddle + 1, endingNumber, arrOrder);
+        } else {
+            binarySearchByNumberOfTimesPurchased(goal, startingNumber, theMiddle - 1, arrOrder);
+        }
+        return "-1";
+    }
+    public static void bubbleSortInt(ArrayList<Integer> arrayNum) {
+        boolean swapped;
+        do {
+            swapped = false;
+            for (int i = 0; i < arrayNum.size() - 1; i++) {
+                if ((arrayNum.get(i)) > (arrayNum.get(i + 1))) {
+                    swapped = true;
+                    int current = arrayNum.get(i);
+                    int next = arrayNum.get(i + 1);
+                    arrayNum.set(i, next);
+                    arrayNum.set(i + 1, current);
+                }
+            }
+        } while (swapped);
+    }
 }
