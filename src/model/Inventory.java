@@ -1,12 +1,15 @@
 import Exceptions.CategoryDoesnotExistException;
 import Exceptions.InventoryEmptyException;
+import Exceptions.ProductAlreadyExistException;
 import Exceptions.ProductNotFoundException;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.InputMismatchException;
 
 public class Inventory {
-    private ArrayList<Product> listProducts; //Lista de productos
-    private ArrayList<Order> listOrder; //Lista de ordenes
+    public ArrayList<Product> listProducts; //Lista de productos
+    public ArrayList<Order> listOrder; //Lista de ordenes
     private Product product; //Conexion con la clase Product
     private Order order;
 
@@ -17,13 +20,17 @@ public class Inventory {
 
     }
 
-    public String addProductToInventory(String name, String description, double price, int quantityAvailable, int category, int numberOfPurchases) {
+    public String addProductToInventory(String name, String description, double price, int quantityAvailable, int category, int numberOfPurchases) throws ProductAlreadyExistException {
         String msj="";
+        int index = searchIndexProduct(name);
+        if (index!=-1){
+            throw new ProductAlreadyExistException();
+        }
         try {
             Product product = new Product(name, description, price, quantityAvailable, category, numberOfPurchases);
             listProducts.add(product);
             msj="Product: " + name + " was added to inventory successfully";
-        }catch (CategoryDoesnotExistException ex){
+        }catch (CategoryDoesnotExistException | InputMismatchException ex){
             ex.printStackTrace();
         }
         return msj;
@@ -39,32 +46,24 @@ public class Inventory {
         return index;
     }
 
-    public String searchProductByName(String productName) {
-        String msj="";
+    public Product searchProductByName(String productName) throws Exception {
+        Product theProduct;
         ArrayList<Product> productsOrderByName = orderProductsByName(listProducts);
         int startingNumber = 0;
         int endingNumber = productsOrderByName.size() - 1;
-        try {
-            int position = binarySearchByName(productName, startingNumber, endingNumber, productsOrderByName);
-            msj = productsOrderByName.get(position).toString();
-        } catch (ProductNotFoundException | InventoryEmptyException ex) {
-            ex.printStackTrace();
-        }
-        return msj;
+        int position = binarySearchByName(productName, startingNumber, endingNumber, productsOrderByName);
+        theProduct = productsOrderByName.get(position);
+        return theProduct;
     }
 
-    public String searchProductPrize(double productPrice) {
+    public String searchProductPrize(double productPrice) throws Exception {
         String msj="";
         ArrayList<Product> productsOrderByPrice = orderProductsByPrice(listProducts);
         int startingNumber = 0;
         int endingNumber = productsOrderByPrice.size() - 1;
-        try {
-            String[] line=binarySearchByPrice(productPrice, startingNumber, endingNumber, productsOrderByPrice).split("//");
-            for (int i=1; i<line.length;i++){
-                msj = msj+productsOrderByPrice.get(Integer.parseInt(line[i])).toString()+"\n";
-            }
-        } catch (ProductNotFoundException | InventoryEmptyException ex) {
-            ex.printStackTrace();
+        String[] line=binarySearchByPrice(productPrice, startingNumber, endingNumber, productsOrderByPrice).split("//");
+        for (int i=1; i<line.length;i++) {
+            msj = msj + productsOrderByPrice.get(Integer.parseInt(line[i])).toString() + "\n";
         }
         return msj;
     }
@@ -99,16 +98,12 @@ public class Inventory {
         }
         return msj;
     }
-    public String removeProduct(String name) {
+    public String removeProduct(String name) throws ProductNotFoundException, InventoryEmptyException {
         String msj = "";
         ArrayList<Product> productsOrderByName = orderProductsByName(listProducts);
-        try {
-            int index =binarySearchByName(name, 0, productsOrderByName.size() - 1, productsOrderByName);
-                listProducts.remove(index);
-                msj = "The product: " + name + " was succesfully deleted";
-            }catch (Exception ex){
-                ex.printStackTrace();
-        }
+        int index =binarySearchByName(name, 0, productsOrderByName.size() - 1, productsOrderByName);
+        listProducts.remove(index);
+        msj = "The product: " + name + " was succesfully deleted";
         return msj;
     }
 
@@ -130,12 +125,15 @@ public class Inventory {
         return msj;
     }
 
-    public String registerOrder(String username, String address, String[] productsToBuy) {
+    public String registerOrder(String username, Date date, int priceOfSale, String[] productsToBuy) {
         String msj = "";
         ArrayList<Product> productsOrderByName = orderProductsByName(listProducts);
         int startingNumber = 0;
         int endingNumber = productsOrderByName.size() - 1;
         try {
+            for (int i = 0; i < productsToBuy.length; i++) {
+                binarySearchByName(productsToBuy[i], startingNumber, endingNumber, productsOrderByName);
+            }
             for (int i = 0; i < productsToBuy.length; i++) {
                 int index = binarySearchByName(productsToBuy[i], startingNumber, endingNumber, productsOrderByName);
                 productsOrderByName.get(index).sellProduct(1);
@@ -144,23 +142,19 @@ public class Inventory {
         }catch (Exception ex){
             ex.printStackTrace();
         }
-        Order newOrder = new Order(username, address,productsToBuy);
+        Order newOrder = new Order(username, date,priceOfSale,productsToBuy);
         listOrder.add(newOrder);
         return msj;
     }
 
-    public String increaseProductQuantity(String productName, int quantityToIncrease){
+    public String increaseProductQuantity(String productName, int quantityToIncrease) throws Exception{
         String msj="";
         ArrayList<Product> productsOrderByName = orderProductsByName(listProducts);
         int startingNumber = 0;
         int endingNumber = productsOrderByName.size() - 1;
-        try {
-            int position = binarySearchByName(productName, startingNumber, endingNumber, productsOrderByName);
-            productsOrderByName.get(position).setQuantityAvailable(productsOrderByName.get(position).getQuantityAvailable() + quantityToIncrease);
-            msj = "The product " + productName + " now has " + productsOrderByName.get(position).getQuantityAvailable() + " units available";
-        } catch (ProductNotFoundException | InventoryEmptyException ex) {
-            ex.printStackTrace();
-        }
+        int position = binarySearchByName(productName, startingNumber, endingNumber, productsOrderByName);
+        productsOrderByName.get(position).addQuantityOfProduct(quantityToIncrease);
+        msj = "The product " + productName + " now has " +productsOrderByName.get(position).getQuantityAvailable()+ " units available";
         return msj;
     }
 

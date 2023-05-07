@@ -1,15 +1,18 @@
-import java.util.ArrayList;
+
 import java.util.Arrays;
+import java.util.Date;
 
 public class Order {
     private String username;
-    private String address;
+    private Date date;
+    private int priceOfSale;
     private String[] listProducts;
-    ;
 
-    public Order(String username, String address, String[] listProducts) {
+
+    public Order(String username, Date date, int priceOfSale, String[] listProducts) {
         this.username = username;
-        this.address = address;
+        this.date = date;
+        this.priceOfSale = priceOfSale;
         this.listProducts = listProducts;
     }
 
@@ -22,12 +25,12 @@ public class Order {
         this.username = username;
     }
 
-    public String getAddress() {
-        return address;
+    public Date getDate() {
+        return date;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public String[] getListProducts() {
@@ -38,11 +41,20 @@ public class Order {
         this.listProducts = listProducts;
     }
 
+    public int getPriceOfSale() {
+        return priceOfSale;
+    }
+
+    public void setPriceOfSale(int priceOfSale) {
+        this.priceOfSale = priceOfSale;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
                 "username='" + username + '\'' +
-                ", address='" + address + '\'' +
+                ", date=" + date +
+                ", priceOfSale=" + priceOfSale +
                 ", listProducts=" + Arrays.toString(listProducts) +
                 '}';
     }

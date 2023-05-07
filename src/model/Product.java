@@ -1,4 +1,5 @@
 import Exceptions.CategoryDoesnotExistException;
+import Exceptions.IncreasingNegativeQuantityOfProductException;
 import Exceptions.NotAvailableToSellException;
 
 public class Product {
@@ -89,5 +90,9 @@ public class Product {
         }
             this.quantityAvailable -= quantityToSell;
             this.numberOfPurchases+= quantityToSell;
+        }
+        public void addQuantityOfProduct(int quantityToIncrease) throws IncreasingNegativeQuantityOfProductException {
+            if(quantityToIncrease<0) throw new IncreasingNegativeQuantityOfProductException();
+            this.quantityAvailable+=quantityToIncrease;
         }
 }
