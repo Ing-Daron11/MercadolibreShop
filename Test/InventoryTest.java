@@ -1,3 +1,5 @@
+import Exceptions.IncreasingNegativeQuantityOfProductException;
+import Exceptions.OrderNotFoundException;
 import Exceptions.ProductAlreadyExistException;
 import Exceptions.ProductNotFoundException;
 import org.junit.Test;
@@ -23,12 +25,12 @@ public class InventoryTest{
         inventory.addProductToInventory("Agua 500 ml", "Refreshing", 2500, 15, 3,14);
     }
     public void setupStage4() throws Exception {
-        inventory.registerOrder("Luna", sdf.parse("2023-04-02"),52000,"Leggins, Pokemón T-shirt".split(","));
-        inventory.registerOrder("Mariana",  sdf.parse("2023-04-02"), 25000,"Leggins".split(","));
-
         inventory.addProductToInventory("Leggins", "Be cool and fresh", 25000, 25, 3, 8);
         inventory.addProductToInventory("Soccer ball", "¡Nothing is better!", 30000, 22, 5, 15);
         inventory.addProductToInventory("Pokemón T-shirt","Let’s catch them",27000, 12, 2, 14);
+
+        inventory.registerOrder("Luna", sdf.parse("2023-04-02"),52000,"Leggins//Pokemón T-shirt".split("//"));
+        inventory.registerOrder("Mariana",  sdf.parse("2023-04-02"), 25000,"Leggins".split(","));
     }
     @Test
     public void validateAddingAProduct() throws Exception {
@@ -76,16 +78,16 @@ public class InventoryTest{
         //Arrange
         setupStage3();
         //Act
-        inventory.registerOrder("Alejandro",sdf.parse("2020-10-22"),35000,"Agua 500 ml,Camiseta Polo L,Marcador Sharpie".split(","));
+        inventory.registerOrder("Alejandro",sdf.parse("2020-10-22"),35000,"Agua 500 ml//Camiseta Polo L//Marcador Sharpie".split("//"));
         //Assert
         assertEquals(inventory.listOrder.get(0).getUsername(),"Alejandro");
     }
     @Test
-    public void validateThatProductDecreaseItsQuantityAvailable() throws Exception {
+    public void validateThatInAnOrderProductDecreaseItsQuantityAvailable() throws Exception {
         //Arrange
         setupStage3();
         //Act
-        inventory.registerOrder("Alejandro",sdf.parse("2020-10-22"),35000,"Agua 500 ml,Camiseta Polo L,Marcador Sharpie".split(","));
+        inventory.registerOrder("Alejandro",sdf.parse("2020-10-22"),35000,"Agua 500 ml//Camiseta Polo L//Marcador Sharpie".split("//"));
         //Assert
         assertEquals(inventory.searchProductByName("Camiseta Polo L").getQuantityAvailable(),14);
         assertEquals(inventory.searchProductByName("Marcador Sharpie").getQuantityAvailable(),7);
@@ -94,10 +96,17 @@ public class InventoryTest{
     @Test
     public void validateOrderWithAnInexistingProduct() throws Exception {
         //Arrange
-        setupStage3();
+        setupStage4();
         //Act
-        inventory.registerOrder("Samuel", sdf.parse("2014-09-16"),2660000,"PC Gamer,Soccer Ball".split(","));
+        boolean result=false;
+        try {
+            inventory.registerOrder("Samuel", sdf.parse("2014-09-16"), 2660000, "PC Gamer//Soccer Ball".split("//"));
+            result=true;
+        }catch (ProductNotFoundException ex){
+            ex.printStackTrace();
+        }
         //Assert
+        assertFalse(result);
         assertEquals(inventory.listProducts.size(),3);
     }
     @Test
@@ -142,7 +151,7 @@ public class InventoryTest{
         try {
             inventory.increaseProductQuantity("Hit mango Pet 500ML",-5);
             result=true;
-        }catch (Exception ex){
+        }catch (IncreasingNegativeQuantityOfProductException ex){
             ex.printStackTrace();
         }
         //Assert
@@ -158,7 +167,7 @@ public class InventoryTest{
         try {
             inventory.increaseProductQuantity("Crema colgate",10);
             result =true;
-        }catch (Exception ex){
+        }catch (ProductNotFoundException ex){
             ex.printStackTrace();
         }
         //Assert
@@ -180,7 +189,7 @@ public class InventoryTest{
         try {
             inventory.searchProductByName("Chicharron dulce");
             result = true;
-        }catch (Exception ex){
+        }catch (ProductNotFoundException ex){
             ex.printStackTrace();
         }
         //Assert
@@ -192,8 +201,8 @@ public class InventoryTest{
         setupStage3();
         //Act and Assert
         assertEquals(inventory.searchProductPrize(2500),inventory.listProducts.get(0).toString()+"\n"+inventory.listProducts.get(1).toString()+"\n");
-        //El anterior método, me retorna un toString de los productos que coincidan con ese valor del precio, por eso el asser equals.
-        //es get(0) y get(1) ya que primero me organiza el arraylist en orden ascendente para hacer luego la busqueda binaria.
+        //El anterior método me retorna un toString de los productos que coincidan con ese valor del precio, por eso el asser equals,
+        //es get(0) y get(1), ya que primero me organiza el arraylist en orden ascendente para hacer luego la busqueda binaria.
     }
     @Test
     public void searchingWithANegativePrice() throws Exception {
@@ -204,7 +213,7 @@ public class InventoryTest{
         try {
             inventory.searchProductPrize(-2000);
             result=true;
-        }catch (Exception ex){
+        }catch (ProductNotFoundException ex){
             ex.printStackTrace();
         }
         //Assert
@@ -215,8 +224,56 @@ public class InventoryTest{
         //Arrange
         setupStage3();
         //Act and Assert
-        assertEquals(inventory.searchProductByCategory(ProductCategory.CLOTHING_ACCESSORIES),inventory.listProducts.get(0).toString());
-        //Son ordenados poe categoria (alfabeticamente).
+
+        assertEquals(inventory.searchProductByCategory(ProductCategory.CLOTHING_ACCESSORIES),inventory.listProducts.get(0).toString()+"\n");
+        //Son ordenados por categoria (alfabeticamente), (por la busqueda binaria)
         // En el setup Stage 3, CLOTHING_ACCESSORIES es la primera categoria que tiene productos en el escenario.
+    }
+    @Test
+    public void validateSearchingProductsByNumberOfTimesPurchase() throws Exception {
+        //Arrange
+        setupStage3();
+        //Act and Assert
+        assertEquals(inventory.searchProductByNumberOfTimesPurchased(14), inventory.listProducts.get(1).toString()+"\n");
+                                                                        //Cuando son ordenados de menor a mayor numero de ventas,
+                                                                        //"Agua 500 ml", es la segunda en el stage
+    }
+    @Test
+    public void validateSearchingOrderByName() throws Exception {
+        //Arrange
+        setupStage4();
+        //Act and Assert
+        assertEquals(inventory.searchOrderByUserName("Luna"),inventory.listOrder.get(0).toString()+"\n");
+        //Como se ha dicho anteriormente, la búsqueda binaria me ordena el arreglo ascententemente.
+        //Luna se encuentra en el pos 0, de ahi el get(0)
+    }
+    @Test
+    public void validateSearchingOrderWithANameThatDoesNotExist() throws Exception {
+        //Arrange
+        setupStage4();
+        //Act
+        boolean result=false;
+        try{
+           inventory.searchOrderByUserName("Francisco");
+           result=true;
+        }catch(OrderNotFoundException ex){
+            ex.printStackTrace();
+        }
+        //Assert
+        assertFalse(result);
+    }
+    @Test
+    public void validateSearchingOrderWithTotalPriceSale() throws Exception {
+        //Arrange
+        setupStage4();
+        //Act and Assert
+        assertEquals(inventory.searchOrderTotalPrice(25000),inventory.listOrder.get(0).toString()+"\n");
+    }
+    @Test
+    public void validateSearchingOrderByDate() throws Exception {
+        //Arrange
+        setupStage4();
+        //Act and Assert
+        assertEquals(inventory.searchOrderByDate(sdf.parse("2023-04-02")), inventory.listOrder.get(0).toString()+"\n"+inventory.listOrder.get(1).toString()+"\n");
     }
 }

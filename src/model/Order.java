@@ -51,11 +51,10 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order{" +
-                "username='" + username + '\'' +
-                ", date=" + date +
-                ", priceOfSale=" + priceOfSale +
-                ", listProducts=" + Arrays.toString(listProducts) +
-                '}';
+        return "\nUsername: " + this.username + '\n' +
+                "Date: " + this.date + "\n" +
+                "PriceOfSale: " + this.priceOfSale + "\n" +
+                "ListProducts: " + Arrays.toString(listProducts) +"\n"+
+                "========================= \n";
     }
 }
