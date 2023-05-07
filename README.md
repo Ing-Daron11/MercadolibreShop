@@ -30,3 +30,12 @@ Densidad de errores-fallos = 0.7273
 Confiabilidad = 0.2727 
 
 Completitud = 1.3636
+
+
+Iteración 4:
+
+Densidad errrores-fallos = 0.6545
+
+Confiabilidad = 0.3434
+
+Completitud = 1.7272
