@@ -25,8 +25,8 @@ Completitud = 1.1818
 
 Iteración 3:
 
-Densidad de errores-fallos = 0.2727
+Densidad de errores-fallos = 0.7273
 
-Confiabilidad = 0.7273
+Confiabilidad = 0.2727 
 
 Completitud = 1.3636
