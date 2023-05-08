@@ -270,12 +270,16 @@ public class Main {
                     }
                     switch (optionSelected){
                         case 1:
-                            msj = inventory.bsRangeNumericalValues(maxNum, minNum, orderFilter);
+                            msj = inventory.bsRangeNumericalValuesPrice(maxNum, minNum, orderFilter);
                             System.out.println(msj);
                             break;
                         case 2:
+                            msj =inventory.bsRangeNumericalValuesQuantity(maxNum, minNum, orderFilter);
+                            System.out.println(msj);
                             break;
                         case 3:
+                            msj =inventory.bsRangeNumericalValuesPurchases(maxNum, minNum, orderFilter);
+                            System.out.println(msj);
                             break;
                     }
                     break;

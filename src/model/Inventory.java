@@ -2,8 +2,8 @@ import Exceptions.*;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Stack;
 
 public class Inventory {
     public ArrayList<Product> listProducts; //Lista de productos
@@ -73,7 +73,7 @@ public class Inventory {
 
     public String searchProductByNumberOfTimesPurchased(int numberOfTimesPurchased) throws InventoryEmptyException, ProductNotFoundException {
         String msj="";
-        ArrayList<Product> productsOrderByNumberOfTimesPurchase = orderProductsByNumberOfTimesPurchased(listProducts);
+        ArrayList<Product> productsOrderByNumberOfTimesPurchase = orderProductsByNumberOfTimesPurchasedAscending(listProducts);
         int startingNumber = 0;
         int endingNumber = productsOrderByNumberOfTimesPurchase.size() - 1;
         String[] line=binarySearchByNumberOfTimesPurchased(numberOfTimesPurchased, startingNumber, endingNumber, productsOrderByNumberOfTimesPurchase).split("//");
@@ -176,22 +176,87 @@ public class Inventory {
         return msj;
     }
 
-    public String bsRangeNumericalValues(int maxnumber, int minNumber, int typeOrdering){
+    public String bsRangeNumericalValuesPrice(int maxnumber, int minNumber, int typeOrdering){
+        String msj = "";
         ArrayList<Product> productsOrderByPrice;
-        if(typeOrdering == 1){//Los ordenamos ascendente
-           productsOrderByPrice = orderProductsByPrice(listProducts);
-        }else{//Descendente
-            productsOrderByPrice = orderProductsByPricedescendig(listProducts);
-        }
+        productsOrderByPrice = orderProductsByPrice(listProducts);
         int staringNumber = binarySearch(minNumber, productsOrderByPrice); //Buscamos el limite inferior
         int lastNumber = binarySearch(maxnumber, productsOrderByPrice);//Buscamos el limite superior
-        List<Product> acotaArray =  listProducts.subList(staringNumber,lastNumber);//Luego se saca la sublista de todos esos productos
-        String msj = "";
-        for (int i = 0; i < acotaArray.size()-1; i++) {
-            msj += acotaArray.get(i).toString();
+        if(staringNumber-1 <= -1){
+            msj = "You can't enter 0 or less.";
+        }else {
+            List<Product> acotaArray =  listProducts.subList(staringNumber-1,lastNumber+1);//Luego se saca la sublista de todos esos productos
+            if(typeOrdering == 1){
+                for (int i = 0; i < acotaArray.size(); i++) {
+                    msj += acotaArray.get(i).toString();
+                }
+            }else{
+                Stack<Product> stackReverse = new Stack<>();
+                for (int i = 0; i < acotaArray.size(); i++) {
+                    stackReverse.push(acotaArray.get(i));
+                }
+                while (!stackReverse.isEmpty()){
+                    msj += stackReverse.pop().toString();
+                }
+            }
         }
         return msj;
     }
+
+    public String bsRangeNumericalValuesQuantity(int maxnumber, int minNumber, int typeOrdering){
+        String msj = "";
+        ArrayList<Product> productsOrderByQuantity;
+        productsOrderByQuantity = orderProductsByQuantityAscending(listProducts);
+        int staringNumber = binarySearch(minNumber, productsOrderByQuantity); //Buscamos el limite inferior
+        int lastNumber = binarySearch(maxnumber, productsOrderByQuantity);//Buscamos el limite superior
+        if(staringNumber-1 <= -1){
+            msj = "You can't enter 0 or less.";
+        }else{
+            List<Product> acotaArray =  listProducts.subList(staringNumber-1,lastNumber+1);//Luego se saca la sublista de todos esos productos
+            if(typeOrdering == 1){
+                for (int i = 0; i < acotaArray.size(); i++) {
+                    msj += acotaArray.get(i).toString();
+                }
+            }else{
+                Stack<Product> stackReverse = new Stack<>();
+                for (int i = 0; i < acotaArray.size(); i++) {
+                    stackReverse.push(acotaArray.get(i));
+                }
+                while (!stackReverse.isEmpty()){
+                    msj += stackReverse.pop().toString();
+                }
+            }
+        }
+        return msj;
+    }
+
+    public String bsRangeNumericalValuesPurchases(int maxnumber, int minNumber, int typeOrdering){
+        String msj = "";
+        ArrayList<Product> productsOrderByPurchases;
+        productsOrderByPurchases = orderProductsByNumberOfTimesPurchasedAscending(listProducts);
+        int staringNumber = binarySearch(minNumber, productsOrderByPurchases); //Buscamos el limite inferior
+        int lastNumber = binarySearch(maxnumber, productsOrderByPurchases);//Buscamos el limite superior
+        if(staringNumber-1 <= -1){
+            msj = "You can't enter 0 or less.";
+        }else{
+            List<Product> acotaArray =  listProducts.subList(staringNumber-1,lastNumber+1);//Luego se saca la sublista de todos esos productos
+            if(typeOrdering == 1){
+                for (int i = 0; i < acotaArray.size(); i++) {
+                    msj += acotaArray.get(i).toString();
+                }
+            }else{
+                Stack<Product> stackReverse = new Stack<>();
+                for (int i = 0; i < acotaArray.size(); i++) {
+                    stackReverse.push(acotaArray.get(i));
+                }
+                while (!stackReverse.isEmpty()){
+                    msj += stackReverse.pop().toString();
+                }
+            }
+        }
+        return msj;
+    }
+
 
 
     /* -------------------------- Metodos auxiliares (Ordenamiento)-----------------------------*/
@@ -229,12 +294,12 @@ public class Inventory {
         return arrayStr;
     }
 
-    public ArrayList<Product> orderProductsByPricedescendig(ArrayList<Product> arrayStr) {
+    public ArrayList<Product> orderProductsByQuantityAscending(ArrayList<Product> arrayStr) {
         boolean swapped;
         do {
             swapped = false;
             for (int i = 0; i < arrayStr.size() - 1; i++) {
-                if ((arrayStr.get(i).getPrice())<(arrayStr.get(i + 1).getPrice())) {
+                if ((arrayStr.get(i).getQuantityAvailable())>(arrayStr.get(i + 1).getQuantityAvailable())) {
                     swapped = true;
                     Product current = arrayStr.get(i);
                     Product next = arrayStr.get(i + 1);
@@ -261,7 +326,7 @@ public class Inventory {
         } while (swapped);
         return arrayStr;
     }
-    public ArrayList<Product> orderProductsByNumberOfTimesPurchased(ArrayList<Product> arrayStr) {
+    public ArrayList<Product> orderProductsByNumberOfTimesPurchasedAscending(ArrayList<Product> arrayStr) {
         boolean swapped;
         do {
             swapped = false;
@@ -277,6 +342,7 @@ public class Inventory {
         } while (swapped);
         return arrayStr;
     }
+
     public ArrayList<Order> orderOrdersByUserName(ArrayList<Order> arrayStr) {
         boolean swapped;
         do {

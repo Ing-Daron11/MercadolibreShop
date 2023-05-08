@@ -8,8 +8,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/src/Inventory.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/src/Inventory.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/src/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/src/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/src/Order.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/src/Order.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/src/Product.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/src/Product.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Inventory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Main.java" afterDir="false" />
     </list>
