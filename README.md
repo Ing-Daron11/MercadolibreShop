@@ -56,3 +56,12 @@ Densidad errrores-fallos = 0.60
 Confiabilidad = 0.40
 
 Completitud = 2.122
+
+
+Iteración 7:
+
+Densidad errrores-fallos = 0.4909
+
+Confiabilidad = 0.5101
+
+Completitud = 2.4545
