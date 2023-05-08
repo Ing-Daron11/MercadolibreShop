@@ -65,3 +65,12 @@ Densidad errrores-fallos = 0.4909
 Confiabilidad = 0.5101
 
 Completitud = 2.4545
+
+Iteración 8:
+
+Densidad errrores-fallos = 0.42
+
+Confiabilidad = 0.58
+
+Completitud = 2.90
+
