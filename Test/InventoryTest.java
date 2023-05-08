@@ -340,5 +340,12 @@ public class InventoryTest{
         //Assert
         assertFalse(result);
     }
-
+    @Test
+    public void validateFilterByName() throws Exception {
+        //Arrange
+        setupStage3();
+        //Act
+        
+        //Assert
+    }
 }

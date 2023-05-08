@@ -277,6 +277,35 @@ public class Inventory {
         }
         return msj;
     }
+    public String bsRangeByName(char minLetter, char maxLetter, int typeOrdering) throws MinValueMajorThanMaxValueException, InventoryEmptyException, ProductNotFoundException {
+        if ((int) minLetter > (int) maxLetter) {
+            throw new MinValueMajorThanMaxValueException();
+        }
+        String msj = "";
+        ArrayList<Product> productsOrderByPurchaseTimes;
+        productsOrderByPurchaseTimes = orderProductsByName(listProducts);
+        int staringNumber = binarySearchByLetterMIN(minLetter, 0, productsOrderByPurchaseTimes.size() - 1, productsOrderByPurchaseTimes); //Buscamos el limite inferior
+        int lastNumber = binarySearchByLetterMAX(maxLetter, 0, productsOrderByPurchaseTimes.size() - 1, productsOrderByPurchaseTimes);//Buscamos el limite superior
+        if (productsOrderByPurchaseTimes.get(lastNumber).getNumberOfPurchases() > maxLetter||staringNumber>lastNumber) {
+            throw new ProductNotFoundException();
+        } else {
+            List<Product> acotaArray = listProducts.subList(staringNumber, lastNumber + 1);//Luego se saca la sublista de todos esos productos
+            if (typeOrdering == 1) {
+                for (int i = 0; i < acotaArray.size(); i++) {
+                    msj += acotaArray.get(i).toString();
+                }
+            } else {
+                Stack<Product> stackReverse = new Stack<>();
+                for (int i = 0; i < acotaArray.size(); i++) {
+                    stackReverse.push(acotaArray.get(i));
+                }
+                while (!stackReverse.isEmpty()) {
+                    msj += stackReverse.pop().toString();
+                }
+            }
+        }
+        return msj;
+    }
 
     /* -------------------------- Metodos auxiliares (Ordenamiento)-----------------------------*/
 
@@ -422,7 +451,7 @@ public class Inventory {
         if (arrOrder.isEmpty()) {
             throw new InventoryEmptyException();
         }
-        if (arrOrder.get(theMiddle).getName().equals(goal)) {
+        if (arrOrder.get(theMiddle).getName().equalsIgnoreCase(goal)) {
             return theMiddle;
         }
         if (startingNumber > endingNumber) {
@@ -715,5 +744,38 @@ public class Inventory {
         }
         return theMiddle;
     }
-
+    public static int binarySearchByLetterMIN(char goal, int startingNumber, int endingNumber, ArrayList<Product> arrOrder) throws ProductNotFoundException, InventoryEmptyException {
+        int theMiddle = (startingNumber + endingNumber) / 2;
+        if (arrOrder.isEmpty()) {
+            throw new InventoryEmptyException();
+        }
+        if (theMiddle + 1 != arrOrder.size() && arrOrder.get(theMiddle + 1).getName().charAt(0) <= goal) {
+            return binarySearchByLetterMIN(goal, theMiddle + 1, endingNumber, arrOrder);
+        } else if (theMiddle - 1 != -1 && arrOrder.get(theMiddle - 1).getName().charAt(0)> goal) {
+            return binarySearchByLetterMIN(goal, startingNumber, theMiddle - 1, arrOrder);
+        }
+        if (theMiddle + 1 != arrOrder.size() && arrOrder.get(theMiddle + 1).getName().charAt(0) > goal && arrOrder.get(theMiddle).getName().charAt(0) < goal) {
+            return theMiddle + 1;
+        }
+        if (arrOrder.get(theMiddle).getName().charAt(0) < goal) {
+            throw new ProductNotFoundException();
+        } else {
+            while (theMiddle - 1 != -1 && arrOrder.get(theMiddle - 1).getName().charAt(0) == goal) {
+                theMiddle--;
+            }
+            return theMiddle;
+        }
+    }
+    public static int binarySearchByLetterMAX(int goal, int startingNumber, int endingNumber, ArrayList<Product> arrOrder) throws ProductNotFoundException, InventoryEmptyException {
+        int theMiddle = (startingNumber + endingNumber) / 2;
+        if (arrOrder.isEmpty()) {
+            throw new InventoryEmptyException();
+        }
+        if (theMiddle + 1 != arrOrder.size() && arrOrder.get(theMiddle + 1).getName().charAt(0) <= goal) {
+            return binarySearchByLetterMAX(goal, theMiddle + 1, endingNumber, arrOrder);
+        } else if (theMiddle - 1 != -1 && arrOrder.get(theMiddle - 1).getName().charAt(0) > goal) {
+            return binarySearchByLetterMAX(goal, startingNumber, theMiddle - 1, arrOrder);
+        }
+        return theMiddle;
+    }
 }

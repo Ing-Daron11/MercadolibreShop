@@ -39,8 +39,10 @@ public class Main {
             switch (choice) {
                 case 1:
                     try {
+                        System.out.println("The first letter of the name will be converted in a capital letter in order in to optimize the process of searching!!");
                         System.out.print("\nEnter product name: ");
-                        String name = scanner.nextLine();
+                        String name = scanner.next();
+                        name = name.substring(0, 1).toUpperCase() + name.substring(1);
                         System.out.print("Enter product description: ");
                         String description = scanner.nextLine();
 
@@ -181,6 +183,7 @@ public class Main {
                         int priceOfSale = scanner.nextInt();
                         msj = inventory.listAllProductsInInventory();
                         System.out.println(msj);
+                        System.out.println("If you want to buy more quantity of a product, write it the times that you want to buy");
                         System.out.println("Write the product's names sell separated with // ");
                         String productsToBuy = scanner.next();
                         String[] arrStr = productsToBuy.split("//");
@@ -299,21 +302,24 @@ public class Main {
                     break;
 
                 case 10:
-                    char maxChar;
-                    char minChar;
-                    int orderFilter = 0;
+                    char maxChar=' ';
+                    char minChar=' ';
+                    orderFilter = 0;
                     System.out.println("""
                             Enter the way which you want to search the product"\s
-                                1. BY PRICE,
-                                2. QUANTITY AVAILABLE,
-                                3. BY NUMBER OF TIMES PURCHASED,
+                                1. BY NAME,
                                 """);
-                    int optionSelected = scanner.nextInt();
+                    optionSelected = scanner.nextInt();
                     try {
+                        System.out.println("***Aclaration***, \n" +
+                                "1.The searching process will be done with Capital letters\n"+
+                                "2.If you write a more than a char, the system just take into account the first");
                         System.out.println("Enter the maximun value you want to search: ");
                         maxChar = scanner.next().charAt(0);
+                        maxChar=Character.toUpperCase(maxChar);
                         System.out.println("Enter the minumun value you want to search");
                         minChar = scanner.next().charAt(0);
+                        minChar=Character.toUpperCase(minChar);
                         System.out.println("""
                                 You want to filter the data:
                                 1.Ascending\s
@@ -322,33 +328,16 @@ public class Main {
                     }catch (Exception e){
                         e.printStackTrace();
                     }
-                    switch (optionSelected){
+                    switch (optionSelected) {
                         case 1:
                             try {
-                                msj = inventory.bsRangeNumericalValuesPrice(maxNum, minNum, orderFilter);
+                                msj = inventory.bsRangeByName(maxChar, minChar, orderFilter);
                                 System.out.println(msj);
-                            }catch (Exception ex){
-                                ex.printStackTrace();
-                            }
-                            break;
-                        case 2:
-                            try {
-                                msj =inventory.bsRangeNumericalValuesQuantity(maxNum, minNum, orderFilter);
-                                System.out.println(msj);
-                            }catch (Exception ex){
-                                ex.printStackTrace();
-                            }
-                            break;
-                        case 3:
-                            try {
-                                msj =inventory.bsRangeNumericalValuesPurchaseTimes(maxNum, minNum, orderFilter);
-                                System.out.println(msj);
-                            }catch (Exception ex){
+                            } catch (Exception ex) {
                                 ex.printStackTrace();
                             }
                             break;
                     }
-                    break;
                     break;
                 case 0:
                     System.out.println("Exit!");
