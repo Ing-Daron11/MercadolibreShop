@@ -39,3 +39,12 @@ Densidad errrores-fallos = 0.6545
 Confiabilidad = 0.3434
 
 Completitud = 1.7272
+
+
+Iteración 5:
+
+Densidad errrores-fallos = 0.5818
+
+Confiabilidad = 0.4118
+
+Completitud = 2.0909
