@@ -27,7 +27,7 @@ public class InventoryTest{
         inventory.addProductToInventory("Pokemón T-shirt","Let’s catch them",27000, 12, 2, 14);
 
         inventory.registerOrder("Luna", sdf.parse("2023-04-02"),52000,"Leggins//Pokemón T-shirt".split("//"));
-        inventory.registerOrder("Mariana",  sdf.parse("2023-04-02"), 25000,"Leggins".split(","));
+        inventory.registerOrder("Mariana",  sdf.parse("2023-04-02"), 25000,"Leggins".split("//"));
     }
     @Test
     public void validateAddingAProduct() throws Exception {
@@ -288,7 +288,7 @@ public class InventoryTest{
         //Act
         boolean result=false;
         try{
-            inventory.bsRangeNumericalValuesPurchases(2500,10000,2);
+            inventory.bsRangeNumericalValuesPrice(2500,10000,2);
             result=true;
         }catch (MinValueMajorThanMaxValueException ex){
             ex.printStackTrace();
@@ -301,6 +301,44 @@ public class InventoryTest{
         //Arrange
         setupStage3();
         //Act and Assert
-        assertEquals(inventory.bsRangeNumericalValuesQuantity(25,15,2),inventory.listProducts.get(2).toString()+"\n"+inventory.listProducts.get(1).toString());
+        assertEquals(inventory.bsRangeNumericalValuesQuantity(25,15,2),inventory.listProducts.get(2).toString()+inventory.listProducts.get(1).toString());
     }
+    @Test
+    public void validateFilterProductsByQuantityInARangeThatTheresNOProducts() throws Exception {
+        //Arrange
+        setupStage3();
+        //Act
+        boolean result=false;
+        try {
+            inventory.bsRangeNumericalValuesQuantity(50,30,1);
+            result=true;
+        }catch (ProductNotFoundException ex){
+            ex.printStackTrace();
+        }
+        //Assert
+        assertFalse(result);
+    }
+    @Test
+    public void validateFilterProductsByPurchaseTimes() throws Exception {
+        //Arrange
+        setupStage3();
+        //Act and Assert
+        assertEquals(inventory.bsRangeNumericalValuesPurchaseTimes(15,10,2),inventory.listProducts.get(1).toString()+inventory.listProducts.get(0).toString());
+    }
+    @Test
+    public void validateFilterProductsByPurchaseTimesInARangeWhichThereisNoProducts() throws Exception {
+        //Arrange
+        setupStage3();
+        //Act
+        boolean result=false;
+        try {
+           inventory.bsRangeNumericalValuesPurchaseTimes(15, 15, 1);
+            result=true;
+        }catch (ProductNotFoundException ex){
+            ex.printStackTrace();
+        }
+        //Assert
+        assertFalse(result);
+    }
+
 }

@@ -264,8 +264,8 @@ public class Main {
                         minNum = scanner.nextInt();
                         System.out.println("""
                                 You want to filter the data:
-                                1. ascending\s
-                                2.descending""");
+                                1.Ascending\s
+                                2.Descending""");
                         orderFilter = scanner.nextInt();
                     }catch (Exception e){
                         e.printStackTrace();
@@ -275,7 +275,7 @@ public class Main {
                             try {
                                 msj = inventory.bsRangeNumericalValuesPrice(maxNum, minNum, orderFilter);
                                 System.out.println(msj);
-                            }catch (MinValueMajorThanMaxValueException ex){
+                            }catch (Exception ex){
                                 ex.printStackTrace();
                             }
                             break;
@@ -283,22 +283,72 @@ public class Main {
                             try {
                                 msj =inventory.bsRangeNumericalValuesQuantity(maxNum, minNum, orderFilter);
                                 System.out.println(msj);
-                            }catch (MinValueMajorThanMaxValueException ex){
+                            }catch (Exception ex){
                                 ex.printStackTrace();
                             }
                             break;
                         case 3:
                             try {
-                                msj =inventory.bsRangeNumericalValuesPurchases(maxNum, minNum, orderFilter);
+                                msj =inventory.bsRangeNumericalValuesPurchaseTimes(maxNum, minNum, orderFilter);
                                 System.out.println(msj);
-                            }catch (MinValueMajorThanMaxValueException ex){
+                            }catch (Exception ex){
                                 ex.printStackTrace();
                             }
                             break;
                     }
                     break;
 
-                case 10: //Filter by Strings
+                case 10:
+                    char maxChar;
+                    char minChar;
+                    int orderFilter = 0;
+                    System.out.println("""
+                            Enter the way which you want to search the product"\s
+                                1. BY PRICE,
+                                2. QUANTITY AVAILABLE,
+                                3. BY NUMBER OF TIMES PURCHASED,
+                                """);
+                    int optionSelected = scanner.nextInt();
+                    try {
+                        System.out.println("Enter the maximun value you want to search: ");
+                        maxChar = scanner.next().charAt(0);
+                        System.out.println("Enter the minumun value you want to search");
+                        minChar = scanner.next().charAt(0);
+                        System.out.println("""
+                                You want to filter the data:
+                                1.Ascending\s
+                                2.Descending""");
+                        orderFilter = scanner.nextInt();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    switch (optionSelected){
+                        case 1:
+                            try {
+                                msj = inventory.bsRangeNumericalValuesPrice(maxNum, minNum, orderFilter);
+                                System.out.println(msj);
+                            }catch (Exception ex){
+                                ex.printStackTrace();
+                            }
+                            break;
+                        case 2:
+                            try {
+                                msj =inventory.bsRangeNumericalValuesQuantity(maxNum, minNum, orderFilter);
+                                System.out.println(msj);
+                            }catch (Exception ex){
+                                ex.printStackTrace();
+                            }
+                            break;
+                        case 3:
+                            try {
+                                msj =inventory.bsRangeNumericalValuesPurchaseTimes(maxNum, minNum, orderFilter);
+                                System.out.println(msj);
+                            }catch (Exception ex){
+                                ex.printStackTrace();
+                            }
+                            break;
+                    }
+                    break;
                     break;
                 case 0:
                     System.out.println("Exit!");
