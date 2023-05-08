@@ -1,8 +1,11 @@
 
+import java.sql.SQLOutput;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.SortedMap;
+
 public class Main {
     private static Scanner scanner = new Scanner(System.in);
     static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -24,8 +27,8 @@ public class Main {
                     6. Add order\s
                     7. Search order in inventory\s
                     8. List all orders\s
-                    9.
-                    10.
+                    9. Search by range (numeric)
+                    10. Search by range (Strings)
                     0. Exit\s
                     """);
             choice = scanner.nextInt();
@@ -240,8 +243,47 @@ public class Main {
                         ex.printStackTrace();
                     }
                     break;
+
+                case 9: //Filter by number
+                    int maxNum = 0;
+                    int minNum = 0;
+                    int orderFilter = 0;
+                    System.out.println("""
+                            Enter the way which you want to search the product"\s
+                                1. BY PRICE,
+                                2. QUANTITY AVAILABLE,
+                                3. BY NUMBER OF TIMES PURCHASED,
+                                """);
+                    int optionSelected = scanner.nextInt();
+                    try {
+                        System.out.println("Enter the maximun value you want to search: ");
+                        maxNum = scanner.nextInt();
+                        System.out.println("Enter the minumun value you want to search");
+                        minNum = scanner.nextInt();
+                        System.out.println("""
+                                You want to filter the data:
+                                1. ascending\s
+                                2.descending""");
+                        orderFilter = scanner.nextInt();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    switch (optionSelected){
+                        case 1:
+                            msj = inventory.bsRangeNumericalValues(maxNum, minNum, orderFilter);
+                            System.out.println(msj);
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            break;
+                    }
+                    break;
+
+                case 10: //Filter by Strings
+                    break;
                 case 0:
-                    System.out.println("Goodbye!");
+                    System.out.println("Exit!");
                     break;
                 default:
                     System.out.println("Invalid choice. Try again.");

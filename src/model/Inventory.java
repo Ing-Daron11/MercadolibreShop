@@ -3,6 +3,7 @@ import Exceptions.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.InputMismatchException;
+import java.util.List;
 
 public class Inventory {
     public ArrayList<Product> listProducts; //Lista de productos
@@ -174,6 +175,25 @@ public class Inventory {
         }
         return msj;
     }
+
+    public String bsRangeNumericalValues(int maxnumber, int minNumber, int typeOrdering){
+        ArrayList<Product> productsOrderByPrice;
+        if(typeOrdering == 1){//Los ordenamos ascendente
+           productsOrderByPrice = orderProductsByPrice(listProducts);
+        }else{//Descendente
+            productsOrderByPrice = orderProductsByPricedescendig(listProducts);
+        }
+        int staringNumber = binarySearch(minNumber, productsOrderByPrice); //Buscamos el limite inferior
+        int lastNumber = binarySearch(maxnumber, productsOrderByPrice);//Buscamos el limite superior
+        List<Product> acotaArray =  listProducts.subList(staringNumber,lastNumber);//Luego se saca la sublista de todos esos productos
+        String msj = "";
+        for (int i = 0; i < acotaArray.size()-1; i++) {
+            msj += acotaArray.get(i).toString();
+        }
+        return msj;
+    }
+
+
     /* -------------------------- Metodos auxiliares (Ordenamiento)-----------------------------*/
 
     public ArrayList<Product> orderProductsByName(ArrayList<Product> arrayStr) {
@@ -198,6 +218,23 @@ public class Inventory {
             swapped = false;
             for (int i = 0; i < arrayStr.size() - 1; i++) {
                 if ((arrayStr.get(i).getPrice())>(arrayStr.get(i + 1).getPrice())) {
+                    swapped = true;
+                    Product current = arrayStr.get(i);
+                    Product next = arrayStr.get(i + 1);
+                    arrayStr.set(i, next);
+                    arrayStr.set(i + 1, current);
+                }
+            }
+        } while (swapped);
+        return arrayStr;
+    }
+
+    public ArrayList<Product> orderProductsByPricedescendig(ArrayList<Product> arrayStr) {
+        boolean swapped;
+        do {
+            swapped = false;
+            for (int i = 0; i < arrayStr.size() - 1; i++) {
+                if ((arrayStr.get(i).getPrice())<(arrayStr.get(i + 1).getPrice())) {
                     swapped = true;
                     Product current = arrayStr.get(i);
                     Product next = arrayStr.get(i + 1);
@@ -470,5 +507,20 @@ public class Inventory {
                 }
             }
         } while (swapped);
+    }
+
+    public int binarySearch(double value, ArrayList<Product> arrProducts){
+        int low = 0;
+        int high= listProducts.size()-1;
+        int mid = 0;
+        while(low<=high){
+            mid = low + (high-low)/2;
+            if(value < (arrProducts.get(mid).getPrice())){
+                high = mid-1;
+            }else{
+                low = mid+1;
+            }
+        }
+        return mid;
     }
 }
