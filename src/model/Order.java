@@ -1,21 +1,22 @@
-import java.util.ArrayList;
+
+import java.util.Arrays;
+import java.util.Date;
+
 public class Order {
     private String username;
-    private String address;
-    private ArrayList<Product> listProducts;
+    private Date date;
+    private int priceOfSale;
+    private String[] listProducts;
 
-    public Order(String username, String address) {
+
+    public Order(String username, Date date, int priceOfSale, String[] listProducts) {
         this.username = username;
-        this.address = address;
-        this.listProducts = new ArrayList<>();
+        this.date = date;
+        this.priceOfSale = priceOfSale;
+        this.listProducts = listProducts;
     }
 
-
-    public void addProductToOrder(Product product){
-        listProducts.add(product);
-    }
-
-//-----------------------Getters and Setters---------------------
+    //-----------------------Getters and Setters---------------------
     public String getUsername() {
         return username;
     }
@@ -24,19 +25,36 @@ public class Order {
         this.username = username;
     }
 
-    public String getAddress() {
-        return address;
+    public Date getDate() {
+        return date;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public ArrayList<Product> getProducts() {
+    public String[] getListProducts() {
         return listProducts;
     }
 
-    public void setProducts(ArrayList<Product> products) {
-        this.listProducts = products;
+    public void setListProducts(String[] listProducts) {
+        this.listProducts = listProducts;
+    }
+
+    public int getPriceOfSale() {
+        return priceOfSale;
+    }
+
+    public void setPriceOfSale(int priceOfSale) {
+        this.priceOfSale = priceOfSale;
+    }
+
+    @Override
+    public String toString() {
+        return "\nUsername: " + this.username + '\n' +
+                "Date: " + this.date + "\n" +
+                "PriceOfSale: " + this.priceOfSale + "\n" +
+                "ListProducts: " + Arrays.toString(listProducts) +"\n"+
+                "========================= \n";
     }
 }
