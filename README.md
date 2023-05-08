@@ -48,3 +48,11 @@ Densidad errrores-fallos = 0.5818
 Confiabilidad = 0.4118
 
 Completitud = 2.0909
+
+Iteración 6:
+
+Densidad errrores-fallos = 0.60
+
+Confiabilidad = 0.40
+
+Completitud = 2.122
