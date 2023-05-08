@@ -29,8 +29,8 @@ public class Main {
                     6. Add order\s
                     7. Search order in inventory\s
                     8. List all orders\s
-                    9. Search by range (numeric)
-                    10. Search by range (Strings)
+                    9. Filter product by range (numeric)
+                    10. Filter product by range (Strings)
                     0. Exit\s
                     """);
             choice = scanner.nextInt();

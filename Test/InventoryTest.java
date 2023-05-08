@@ -344,8 +344,22 @@ public class InventoryTest{
     public void validateFilterByName() throws Exception {
         //Arrange
         setupStage3();
+        //Act and Assert
+        assertEquals(inventory.bsRangeByName('A','D',2),inventory.listProducts.get(1).toString()+inventory.listProducts.get(0).toString());
+    }
+    @Test
+    public void filteringProductsByAnIntervalWhichTheresNoProducts() throws Exception {
+        //Arrange
+        setupStage3();
+        boolean result=false;
         //Act
-        
+        try{
+            inventory.bsRangeByName('z','z',1);
+            result=true;
+        }catch (ProductNotFoundException ex){
+            ex.printStackTrace();
+        }
         //Assert
+        assertFalse(result);
     }
 }
