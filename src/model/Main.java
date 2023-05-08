@@ -1,4 +1,6 @@
 
+import Exceptions.MinValueMajorThanMaxValueException;
+
 import java.sql.SQLOutput;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -270,16 +272,28 @@ public class Main {
                     }
                     switch (optionSelected){
                         case 1:
-                            msj = inventory.bsRangeNumericalValuesPrice(maxNum, minNum, orderFilter);
-                            System.out.println(msj);
+                            try {
+                                msj = inventory.bsRangeNumericalValuesPrice(maxNum, minNum, orderFilter);
+                                System.out.println(msj);
+                            }catch (MinValueMajorThanMaxValueException ex){
+                                ex.printStackTrace();
+                            }
                             break;
                         case 2:
-                            msj =inventory.bsRangeNumericalValuesQuantity(maxNum, minNum, orderFilter);
-                            System.out.println(msj);
+                            try {
+                                msj =inventory.bsRangeNumericalValuesQuantity(maxNum, minNum, orderFilter);
+                                System.out.println(msj);
+                            }catch (MinValueMajorThanMaxValueException ex){
+                                ex.printStackTrace();
+                            }
                             break;
                         case 3:
-                            msj =inventory.bsRangeNumericalValuesPurchases(maxNum, minNum, orderFilter);
-                            System.out.println(msj);
+                            try {
+                                msj =inventory.bsRangeNumericalValuesPurchases(maxNum, minNum, orderFilter);
+                                System.out.println(msj);
+                            }catch (MinValueMajorThanMaxValueException ex){
+                                ex.printStackTrace();
+                            }
                             break;
                     }
                     break;

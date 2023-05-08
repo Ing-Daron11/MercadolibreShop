@@ -176,16 +176,19 @@ public class Inventory {
         return msj;
     }
 
-    public String bsRangeNumericalValuesPrice(int maxnumber, int minNumber, int typeOrdering){
+    public String bsRangeNumericalValuesPrice(int maxnumber, int minNumber, int typeOrdering) throws MinValueMajorThanMaxValueException {
+        if(minNumber>maxnumber){
+            throw new MinValueMajorThanMaxValueException();
+        }
         String msj = "";
         ArrayList<Product> productsOrderByPrice;
         productsOrderByPrice = orderProductsByPrice(listProducts);
-        int staringNumber = binarySearch(minNumber, productsOrderByPrice); //Buscamos el limite inferior
-        int lastNumber = binarySearch(maxnumber, productsOrderByPrice);//Buscamos el limite superior
+        int staringNumber = binarySearchPrice(minNumber, productsOrderByPrice); //Buscamos el limite inferior
+        int lastNumber = binarySearchPrice(maxnumber, productsOrderByPrice);//Buscamos el limite superior
         if(staringNumber-1 <= -1){
             msj = "You can't enter 0 or less.";
         }else {
-            List<Product> acotaArray =  listProducts.subList(staringNumber-1,lastNumber+1);//Luego se saca la sublista de todos esos productos
+            List<Product> acotaArray =  listProducts.subList(staringNumber,lastNumber+1);//Luego se saca la sublista de todos esos productos
             if(typeOrdering == 1){
                 for (int i = 0; i < acotaArray.size(); i++) {
                     msj += acotaArray.get(i).toString();
@@ -203,16 +206,19 @@ public class Inventory {
         return msj;
     }
 
-    public String bsRangeNumericalValuesQuantity(int maxnumber, int minNumber, int typeOrdering){
+    public String bsRangeNumericalValuesQuantity(int maxnumber, int minNumber, int typeOrdering) throws MinValueMajorThanMaxValueException {
+        if(minNumber>maxnumber){
+            throw new MinValueMajorThanMaxValueException();
+        }
         String msj = "";
         ArrayList<Product> productsOrderByQuantity;
         productsOrderByQuantity = orderProductsByQuantityAscending(listProducts);
-        int staringNumber = binarySearch(minNumber, productsOrderByQuantity); //Buscamos el limite inferior
-        int lastNumber = binarySearch(maxnumber, productsOrderByQuantity);//Buscamos el limite superior
+        int staringNumber = binarySearchQuantity(minNumber, productsOrderByQuantity); //Buscamos el limite inferior
+        int lastNumber = binarySearchQuantity(maxnumber, productsOrderByQuantity);//Buscamos el limite superior
         if(staringNumber-1 <= -1){
             msj = "You can't enter 0 or less.";
         }else{
-            List<Product> acotaArray =  listProducts.subList(staringNumber-1,lastNumber+1);//Luego se saca la sublista de todos esos productos
+            List<Product> acotaArray =  listProducts.subList(staringNumber,lastNumber+1);//Luego se saca la sublista de todos esos productos
             if(typeOrdering == 1){
                 for (int i = 0; i < acotaArray.size(); i++) {
                     msj += acotaArray.get(i).toString();
@@ -230,16 +236,19 @@ public class Inventory {
         return msj;
     }
 
-    public String bsRangeNumericalValuesPurchases(int maxnumber, int minNumber, int typeOrdering){
+    public String bsRangeNumericalValuesPurchases(int maxnumber, int minNumber, int typeOrdering) throws MinValueMajorThanMaxValueException {
+        if(minNumber>maxnumber){
+            throw new MinValueMajorThanMaxValueException();
+        }
         String msj = "";
         ArrayList<Product> productsOrderByPurchases;
         productsOrderByPurchases = orderProductsByNumberOfTimesPurchasedAscending(listProducts);
-        int staringNumber = binarySearch(minNumber, productsOrderByPurchases); //Buscamos el limite inferior
-        int lastNumber = binarySearch(maxnumber, productsOrderByPurchases);//Buscamos el limite superior
+        int staringNumber = binarySearchPurchaseTimes(minNumber, productsOrderByPurchases); //Buscamos el limite inferior
+        int lastNumber = binarySearchPurchaseTimes(maxnumber, productsOrderByPurchases);//Buscamos el limite superior
         if(staringNumber-1 <= -1){
             msj = "You can't enter 0 or less.";
         }else{
-            List<Product> acotaArray =  listProducts.subList(staringNumber-1,lastNumber+1);//Luego se saca la sublista de todos esos productos
+            List<Product> acotaArray =  listProducts.subList(staringNumber,lastNumber+1);//Luego se saca la sublista de todos esos productos
             if(typeOrdering == 1){
                 for (int i = 0; i < acotaArray.size(); i++) {
                     msj += acotaArray.get(i).toString();
@@ -575,13 +584,41 @@ public class Inventory {
         } while (swapped);
     }
 
-    public int binarySearch(double value, ArrayList<Product> arrProducts){
+    public int binarySearchPrice(double value, ArrayList<Product> arrProducts){
         int low = 0;
         int high= listProducts.size()-1;
         int mid = 0;
         while(low<=high){
             mid = low + (high-low)/2;
             if(value < (arrProducts.get(mid).getPrice())){
+                high = mid-1;
+            }else{
+                low = mid+1;
+            }
+        }
+        return mid;
+    }
+    public int binarySearchQuantity(double value, ArrayList<Product> arrProducts){
+        int low = 0;
+        int high= listProducts.size()-1;
+        int mid = 0;
+        while(low<=high){
+            mid = low + (high-low)/2;
+            if(value < (arrProducts.get(mid).getQuantityAvailable())){
+                high = mid-1;
+            }else{
+                low = mid+1;
+            }
+        }
+        return mid;
+    }
+    public int binarySearchPurchaseTimes(double value, ArrayList<Product> arrProducts){
+        int low = 0;
+        int high= listProducts.size()-1;
+        int mid = 0;
+        while(low<=high){
+            mid = low + (high-low)/2;
+            if(value < (arrProducts.get(mid).getNumberOfPurchases())){
                 high = mid-1;
             }else{
                 low = mid+1;

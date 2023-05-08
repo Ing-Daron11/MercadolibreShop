@@ -1,7 +1,4 @@
-import Exceptions.IncreasingNegativeQuantityOfProductException;
-import Exceptions.OrderNotFoundException;
-import Exceptions.ProductAlreadyExistException;
-import Exceptions.ProductNotFoundException;
+import Exceptions.*;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
@@ -275,5 +272,35 @@ public class InventoryTest{
         setupStage4();
         //Act and Assert
         assertEquals(inventory.searchOrderByDate(sdf.parse("2023-04-02")), inventory.listOrder.get(0).toString()+"\n"+inventory.listOrder.get(1).toString()+"\n");
+    }
+    @Test
+    public void validateFilterProductPrice() throws Exception {
+        //Arrange
+        setupStage3();
+        //Act and Assert
+        assertEquals(inventory.bsRangeNumericalValuesPrice(50000,10000,1),inventory.listProducts.get(2).toString());
+                                                    //El método ordena el arraylist de forma ascendente, por tanto get(2).
+    }
+    @Test
+    public void validateFilterMinValueMajorThanMaxValue() throws Exception {
+        //Arrange
+        setupStage3();
+        //Act
+        boolean result=false;
+        try{
+            inventory.bsRangeNumericalValuesPurchases(2500,10000,2);
+            result=true;
+        }catch (MinValueMajorThanMaxValueException ex){
+            ex.printStackTrace();
+        }
+        //Assert
+        assertFalse(result);
+    }
+    @Test
+    public void validateFilterProductByQuantity() throws Exception {
+        //Arrange
+        setupStage3();
+        //Act and Assert
+        assertEquals(inventory.bsRangeNumericalValuesQuantity(25,15,2),inventory.listProducts.get(2).toString()+"\n"+inventory.listProducts.get(1).toString());
     }
 }
