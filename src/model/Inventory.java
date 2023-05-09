@@ -1,11 +1,22 @@
-import Exceptions.*;
+﻿import Exceptions.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Stack;
 
+
 public class Inventory {
+
+    static String path = "Data/inventoryData.json";
+
     public ArrayList<Product> listProducts; //Lista de productos
     public ArrayList<Order> listOrder; //Lista de ordenes
 
@@ -14,7 +25,31 @@ public class Inventory {
         this.listProducts = new ArrayList<>();
         this.listOrder = new ArrayList<>();
 
+
     }
+
+    /*----------------Sistema de guardado de datos usando Gson---------------*/
+
+
+    public void saveData() throws IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        InventoryData data = new InventoryData(listProducts, listOrder);
+        FileWriter writer = new FileWriter(path);
+        writer.write(gson.toJson(data));
+        writer.close();
+    }
+
+    public void loadData() throws IOException {
+        Gson gson = new Gson();
+        FileReader reader = new FileReader(path);
+        Type dataType = new TypeToken<InventoryData>() {}.getType();
+        InventoryData data = gson.fromJson(reader, dataType);
+        listProducts = data.listProducts;
+        listOrder = data.listOrder;
+    }
+
+
+
 
     /*----------------Validación para que no se puedan añadir 2 productos con el mismo nombre---------------*/
     public int searchIndexProduct(String name) {
