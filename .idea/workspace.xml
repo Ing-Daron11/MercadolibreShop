@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3cb08389-90c6-48d9-b85b-b66eb4d5f084" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/lib.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MercadolibreShop.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Test/InventoryTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/Orders.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/products.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/src/Exceptions/CategoryDoesnotExistException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/src/Exceptions/IncreasingNegativeQuantityOfProductException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/src/Exceptions/InventoryEmptyException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/src/Exceptions/MinValueMajorThanMaxValueException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/src/Exceptions/NoOrdersRegisteredException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/src/Exceptions/NotAvailableToSellException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/src/Exceptions/OrderNotFoundException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/src/Exceptions/ProductAlreadyExistException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/src/Exceptions/ProductNotFoundException.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/src/Inventory.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/src/Main.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/src/Order.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/src/Product.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/production/src/ProductCategory.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/out/test/MercadolibreShop/InventoryTest.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/MercadolibreShop1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/lib/gson-2.8.2.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/model/Exceptions/CategoryDoesnotExistException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/model/Exceptions/IncreasingNegativeQuantityOfProductException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/model/Exceptions/InventoryEmptyException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/model/Exceptions/MinValueMajorThanMaxValueException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/model/Exceptions/NoOrdersRegisteredException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/model/Exceptions/NotAvailableToSellException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/model/Exceptions/OrderNotFoundException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/model/Exceptions/ProductAlreadyExistException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/model/Exceptions/ProductNotFoundException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/model/Inventory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/model/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/model/Order.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/model/Product.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/model/ProductCategory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/src.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/MercadolibreShop.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/MercadolibreShop.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2PZLh67cfHRlQ21jyHSdEg47GIN" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/daron/Downloads/workspace/Programas java/Avanzado/Grafos&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\daron\Downloads\workspace\Programas java\Avanzado\MercadolibreShop\src\lib" />
+      <recent name="C:\Users\daron\Downloads\workspace\Programas java\Avanzado\MercadolibreShop\src\model" />
+      <recent name="C:\Users\daron\Downloads\workspace\Programas java\Avanzado\MercadolibreShop\Gson" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.InventoryTest">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="src" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="InventoryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="MercadolibreShop" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="InventoryTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="InventoryTest.saveOrders" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="MercadolibreShop" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="InventoryTest" />
+      <option name="METHOD_NAME" value="saveOrders" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="InventoryTest.saveOrders2" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="MercadolibreShop" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="InventoryTest" />
+      <option name="METHOD_NAME" value="saveOrders2" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="InventoryTest.saveProducts" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="MercadolibreShop" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="InventoryTest" />
+      <option name="METHOD_NAME" value="saveProducts" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.InventoryTest" />
+        <item itemvalue="JUnit.InventoryTest.saveOrders2" />
+        <item itemvalue="JUnit.InventoryTest.saveProducts" />
+        <item itemvalue="JUnit.InventoryTest.saveOrders" />
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3cb08389-90c6-48d9-b85b-b66eb4d5f084" name="Changes" comment="" />
+      <created>1683659772303</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1683659772303</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/model/Inventory.java</url>
+          <line>465</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

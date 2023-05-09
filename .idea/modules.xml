@@ -3,6 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/MercadolibreShop.iml" filepath="$PROJECT_DIR$/.idea/MercadolibreShop.iml" />
+<<<<<<< HEAD
+=======
+      <module fileurl="file://$PROJECT_DIR$/src/src.iml" filepath="$PROJECT_DIR$/src/src.iml" />
+>>>>>>> Development
     </modules>
   </component>
 </project>
