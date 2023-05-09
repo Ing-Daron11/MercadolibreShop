@@ -74,7 +74,7 @@ Confiabilidad = 0.58
 
 Completitud = 2.90
 
->Iteració 9:
+>Iteración 9:
 
 Densidad Fallos-Errores= 0/33 = 0
 
