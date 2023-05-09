@@ -2,6 +2,7 @@ import Exceptions.*;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -13,7 +14,7 @@ public class InventoryTest{
 
     }
     public void setupStage2() throws Exception {
-        inventory.addProductToInventory("Teclado gamer", "Keyboard just for the pros", 100000, 20, 1, 12);
+        inventory.addProductToInventory("Teclado_gamer", "Keyboard just for the pros", 100000, 20, 1, 12);
         inventory.addProductToInventory("Hit mango Pet 500ML", "Colombian 100% juice", 2500, 15, 3, 120);
     }
     public void setupStage3() throws Exception {
@@ -61,14 +62,14 @@ public class InventoryTest{
         //Act
         boolean result = false;
         try {
-            inventory.addProductToInventory("Teclado gamer", "New keyboard", 30000, 20, 1, 14);
+            inventory.addProductToInventory("Teclado_gamer", "New keyboard", 30000, 20, 1, 14);
             result =true;
         }catch (ProductAlreadyExistException ex){
             ex.printStackTrace();
         }
         //Assert
         assertFalse(result);
-        assertEquals(inventory.listProducts.get(0).getName(),"Teclado gamer");
+        assertEquals(inventory.listProducts.get(0).getName(),"Teclado_gamer");
     }
     @Test
     public void validateRegisterOrder() throws Exception {
@@ -135,9 +136,9 @@ public class InventoryTest{
         //Arrange
         setupStage2();
         //Act
-        inventory.increaseProductQuantity("Teclado gamer",20);
+        inventory.increaseProductQuantity("Teclado_gamer",20);
         //Arrange
-        assertEquals(inventory.searchProductByName("Teclado gamer").getName(),"Teclado gamer");
+        assertEquals(inventory.searchProductByName("Teclado_gamer").getName(),"Teclado_gamer");
     }
     @Test
     public void increaseNegativeQuantity() throws Exception{
@@ -362,4 +363,64 @@ public class InventoryTest{
         //Assert
         assertFalse(result);
     }
+
+    @Test
+    public void saveProductLists() throws Exception {
+        //Arrange
+        setupStage1();
+        inventory.addProductToInventory("COCACOLA", "Bebida", 3000, 5, 3, 10);
+        inventory.addProductToInventory("pearl necklace", "food", 10000, 2, 2, 10);
+        inventory.addProductToInventory("Blender", "for the house", 50000, 1, 1, 10);
+        //Act
+        String expectedJson = inventory.createGsonProducts();
+        //Assert
+        assertEquals(expectedJson, "[{\"name\":\"COCACOLA\",\"description\":\"Bebida\",\"price\":3000.0,\"quantityAvailable\":5,\"category\":\"FOOD_BEVERAGES\",\"numberOfPurchases\":10},{\"name\":\"pearl necklace\",\"description\":\"food\",\"price\":10000.0,\"quantityAvailable\":2,\"category\":\"CLOTHING_ACCESSORIES\",\"numberOfPurchases\":10},{\"name\":\"Blender\",\"description\":\"for the house\",\"price\":50000.0,\"quantityAvailable\":1,\"category\":\"ELECTRONICS\",\"numberOfPurchases\":10}]");
+    }
+
+    @Test
+    public void saveOrders() throws Exception {
+        //Arrange
+        setupStage2();
+        inventory.registerOrder("Matias", sdf.parse("2022-03-15"),50000,"Teclado_gamer".split("//"));
+        inventory.registerOrder("Laura", sdf.parse("2022-12-07"),20000,"Teclado_gamer".split("//"));
+        inventory.registerOrder("Tomas", sdf.parse("2022-07-22"),750000,"Teclado_gamer".split("//"));
+        //Act
+        String expectedJson = inventory.createGsonOrders();
+        //Assert
+        assertEquals(expectedJson, "[{\"username\":\"Matias\",\"date\":\"Mar 15, 2022, 12:00:00 AM\",\"priceOfSale\":50000,\"listProducts\":[\"Teclado_gamer\"]},{\"username\":\"Laura\",\"date\":\"Dec 7, 2022, 12:00:00 AM\",\"priceOfSale\":20000,\"listProducts\":[\"Teclado_gamer\"]},{\"username\":\"Tomas\",\"date\":\"Jul 22, 2022, 12:00:00 AM\",\"priceOfSale\":750000,\"listProducts\":[\"Teclado_gamer\"]}]");
+    }
+
+    @Test
+    public void saveProducts() throws Exception {
+        //Arrange
+        setupStage3();
+        boolean flag = false;
+        //Act
+        try{
+            Object oneThousand = null;
+            inventory.addProductToInventory("Drangon Handler", "for the house", (int) oneThousand, 1, 2, 10);
+
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+        //Assert
+        assertFalse(flag);
+    }
+
+    @Test
+    public void saveOrders2() throws Exception {
+        //Arrange
+        setupStage4();
+        boolean flag = false;
+        //Act
+        try{
+            inventory.registerOrder("Paula", sdf.parse("May 22, 2022"),1500000,"Leggins".split("//"));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        //Assert
+        assertFalse(flag);
+    }
+
+
 }

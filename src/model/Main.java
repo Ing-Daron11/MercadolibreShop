@@ -1,13 +1,7 @@
-
-import Exceptions.MinValueMajorThanMaxValueException;
-
-import java.sql.SQLOutput;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
-import java.util.SortedMap;
-
 public class Main {
     private static Scanner scanner = new Scanner(System.in);
     static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -41,16 +35,14 @@ public class Main {
                     try {
                         System.out.println("The first letter of the name will be converted in a capital letter in order in to optimize the process of searching!!");
                         System.out.print("\nEnter product name: ");
-                        String name = scanner.next();
+                        String name = scanner.nextLine();
                         name = name.substring(0, 1).toUpperCase() + name.substring(1);
-                        System.out.print("Enter product description: ");
+                        System.out.print("\nEnter product description: ");
                         String description = scanner.nextLine();
-
-
-                        System.out.print("Enter product price: ");
+                        System.out.print("\nEnter product price: ");
                         double price = scanner.nextDouble();
 
-                        System.out.print("Enter quantity available: ");
+                        System.out.print("\nEnter quantity available: ");
                         int quantityAvailable = scanner.nextInt();
 
                         System.out.println("""
@@ -340,6 +332,8 @@ public class Main {
                     }
                     break;
                 case 0:
+                    inventory.createGsonProducts();
+                    inventory.createGsonOrders();
                     System.out.println("Exit!");
                     break;
                 default:

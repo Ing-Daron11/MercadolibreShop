@@ -1,5 +1,11 @@
 import Exceptions.*;
+import com.google.gson.Gson;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -306,6 +312,8 @@ public class Inventory {
         }
         return msj;
     }
+
+
 
     /* -------------------------- Metodos auxiliares (Ordenamiento)-----------------------------*/
 
@@ -777,5 +785,67 @@ public class Inventory {
             return binarySearchByLetterMAX(goal, startingNumber, theMiddle - 1, arrOrder);
         }
         return theMiddle;
+    }
+
+    public ArrayList<Product> getProducts() {
+        return listProducts;
+    }
+
+    public ArrayList<Order> getOrder(){
+        return listOrder;
+    }
+
+    public String createGsonProducts(){
+        Gson gson = new Gson();
+
+        File projectDir = new File(System.getProperty("user.dir"));
+        File dataDirectory = new File(projectDir+"/data");
+        File result = new File(projectDir+"/data/products.json");
+
+
+        if(!dataDirectory.exists()){
+            dataDirectory.mkdirs();
+        }
+
+        String json2 = gson.toJson(getProducts());
+
+        try {
+            FileOutputStream fos = new FileOutputStream(result);
+            fos.write(json2.getBytes(StandardCharsets.UTF_8));
+            fos.close();
+
+        }catch (FileNotFoundException e){
+            System.out.println("file not found");
+        }catch (IOException e){
+            System.out.println("IOE");
+        }
+        return json2;
+    }
+
+    public String createGsonOrders(){
+        Gson gson = new Gson();
+
+        File projectDir = new File(System.getProperty("user.dir"));
+        File dataDirectory = new File(projectDir+"/data");
+        File result = new File(projectDir+"/data/Orders.json");
+
+
+        if(!dataDirectory.exists()){
+            dataDirectory.mkdirs();
+        }
+
+        String json2 = gson.toJson(getOrder());
+
+        try {
+            FileOutputStream fos = new FileOutputStream(result);
+            fos.write(json2.getBytes(StandardCharsets.UTF_8));
+            fos.close();
+
+        }catch (FileNotFoundException e){
+            System.out.println("file not found");
+        }catch (IOException e){
+            System.out.println("IOE");
+        }
+        return json2;
     }
 }
