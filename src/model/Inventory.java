@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,21 +18,20 @@ public class Inventory {
 
     static String path = "Data/inventoryData.json";
 
-    public ArrayList<Product> listProducts; //Lista de productos
-    public ArrayList<Order> listOrder; //Lista de ordenes
+    public static ArrayList<Product> listProducts; //Lista de productos
+    public static ArrayList<Order> listOrder; //Lista de ordenes
 
 
     public Inventory() {
-        this.listProducts = new ArrayList<>();
-        this.listOrder = new ArrayList<>();
+        listProducts = new ArrayList<>();
+        listOrder = new ArrayList<>();
 
 
     }
 
     /*----------------Sistema de guardado de datos usando Gson---------------*/
 
-
-    public void saveData() throws IOException {
+    public static void saveData() throws IOException {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         InventoryData data = new InventoryData(listProducts, listOrder);
         FileWriter writer = new FileWriter(path);
@@ -39,15 +39,14 @@ public class Inventory {
         writer.close();
     }
 
-    public void loadData() throws IOException {
+    public static void loadData() throws IOException {
         Gson gson = new Gson();
         FileReader reader = new FileReader(path);
         Type dataType = new TypeToken<InventoryData>() {}.getType();
         InventoryData data = gson.fromJson(reader, dataType);
-        listProducts = data.listProducts;
-        listOrder = data.listOrder;
+        listProducts = InventoryData.listProducts;
+        listOrder = InventoryData.listOrder;
     }
-
 
 
 

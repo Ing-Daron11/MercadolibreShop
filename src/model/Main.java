@@ -1,19 +1,19 @@
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
-
-
 public class Main {
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
     static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     private static Inventory inventory; //Conexión con la clase Inventory que es la controladora y contenedora
 
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) throws ParseException, IOException {
         String msj = "";
         inventory = new Inventory();
+        Inventory.loadData();
         int choice;
         do {
             System.out.println("""
@@ -67,6 +67,7 @@ public class Main {
                         int numberOfPurchases = scanner.nextInt();
 
                         msj = inventory.addProductToInventory(name, description, price, quantityAvailable, categoryIndex, numberOfPurchases);
+                        Inventory.saveData();
                         System.out.println(msj);
                     } catch (Exception ex) {
                         ex.printStackTrace();
@@ -155,6 +156,7 @@ public class Main {
                     String name = scanner.nextLine();
                     try {
                         msj = inventory.removeProduct(name);
+                        Inventory.saveData();
                         System.out.println(msj);
                     } catch (Exception ex) {
                         ex.printStackTrace();
