@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ce64d6d0-debb-4ac1-8773-5f5eae7cd7ff" name="Changes" comment="Workspace" />
+    <list default="true" id="ce64d6d0-debb-4ac1-8773-5f5eae7cd7ff" name="Changes" comment="Workspace">
+      <change afterPath="$PROJECT_DIR$/src/.idea/libraries/google_code_gson.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MercadolibreShop.iml" beforeDir="false" afterPath="$PROJECT_DIR$/src/MercadolibreShop.iml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -57,7 +60,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "jdk.selected.JAVA_MODULE": "18",
-    "last_opened_file_path": "C:/Users/daron/Downloads/workspace/Programas java/Intermedio/Eshop",
+    "last_opened_file_path": "C:/Users/alexi/IdeaProjects/MercadolibreShop",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",

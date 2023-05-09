@@ -362,4 +362,60 @@ public class InventoryTest{
         //Assert
         assertFalse(result);
     }
+
+    //Test for Gson
+
+    @Test
+    public void testSaveAndLoadData() throws IOException {
+        // Crear un objeto Inventory y agregar algunos productos y órdenes
+        Inventory inventory = new Inventory();
+        inventory.listProducts.add(new Product("Producto 1", 10.0, 5));
+        inventory.listOrder.add(new Order(new Date(), "Cliente 1"));
+
+        // Guardar los datos en un archivo
+        inventory.saveData();
+
+        // Crear un nuevo objeto Inventory y cargar los datos desde el archivo
+        Inventory newInventory = new Inventory();
+        newInventory.loadData();
+
+        // Verificar que los datos se hayan cargado correctamente
+        assertEquals(inventory.listProducts, newInventory.listProducts);
+        assertEquals(inventory.listOrder, newInventory.listOrder);
+    }
+
+    @Test
+    public void testSaveAndLoadEmptyData() throws IOException {
+        // Crear un objeto Inventory vacío
+        Inventory inventory = new Inventory();
+
+        // Guardar los datos en un archivo
+        inventory.saveData();
+
+        // Crear un nuevo objeto Inventory y cargar los datos desde el archivo
+        Inventory newInventory = new Inventory();
+        newInventory.loadData();
+
+        // Verificar que los datos se hayan cargado correctamente
+        assertEquals(inventory.listProducts, newInventory.listProducts);
+        assertEquals(inventory.listOrder, newInventory.listOrder);
+    }
+
+    @Test
+    public void testLoadNonexistentData() throws IOException {
+        // Crear un objeto Inventory vacío
+        Inventory inventory = new Inventory();
+
+        // Intentar cargar los datos desde un archivo inexistente
+        inventory.loadData();
+
+        // Verificar que la lista de productos y órdenes estén vacías
+        assertEquals(0, inventory.listProducts.size());
+        assertEquals(0, inventory.listOrder.size());
+    }
+
+
+
+
+
 }
